@@ -1,23 +1,25 @@
 from django.db import models
 from tinymce.models import HTMLField
 
+
 class Place(models.Model):
     title = models.CharField(
         verbose_name="Название локации",
         max_length=200
     )
-    description_short = models.CharField(
+    short_description = models.TextField(
         verbose_name="Краткое описание",
         max_length=400,
         blank=True,
         default=""
     )
-    description_long = HTMLField(verbose_name="Полное описание")
+    long_description = HTMLField(
+        verbose_name="Полное описание"
+    )
     lng = models.DecimalField(
         verbose_name="Долгота",
         max_digits=17,
-        decimal_places=14,
-        blank=True
+        decimal_places=14
     )
     lat = models.DecimalField(
         verbose_name="Широта",
@@ -48,8 +50,8 @@ class Image(models.Model):
         default=0,
         db_index=True,
     )
+
     class Meta:
         ordering = ['position']
         verbose_name = "Изображение"
         verbose_name_plural = "Изображения"
-# Create your models here.
