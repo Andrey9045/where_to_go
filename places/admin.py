@@ -7,13 +7,13 @@ from adminsortable2.admin import SortableTabularInline
 from adminsortable2.admin import SortableAdminMixin
 
 
-
 class ImageInline(SortableTabularInline):
     model = Image
     extra = 3
     fields = ('image', 'preview')
     readonly_fields = ('preview',)
     template = 'admin/edit_inline/tabular.html'
+    raw_id_fields = ('place',) 
 
     def preview(self, obj):
         if obj.image:
@@ -25,24 +25,35 @@ class ImageInline(SortableTabularInline):
 @admin.register(Place)
 class PlaceAdmin(SortableAdminMixin, admin.ModelAdmin):
     inlines = [ImageInline]
-    list_display = ('id', 'title', 'short_description', 'long_description', 'coordinates')
+    list_display = (
+        'id',
+        'title',
+        'short_description',
+        'long_description',
+        'coordinates'
+    )
     list_display_links = ('title', 'short_description', 'long_description')
-    # Явно указываем стандартный шаблон для списка
-    change_list_template = 'admin/change_list.html'  # ← ДОБАВЬТЕ ЭТУ СТРОКУ!
-
-    # Явно указываем стандартный шаблон для формы редактирования
-    change_form_template = 'admin/change_form.html'
 
     def short_description(self, obj):
         if obj.description_short:
-        	return obj.description_short[:30]+ "..." if len(obj.description_short)>30 else obj.description_short
-        return "-"
+            text = obj.description_short
+            if len(text) > 30:
+                return text[:30] + "..."
+            else:
+                return text
+        else:
+            return "-"
     short_description.short_description = "Короткое описание"
 
     def long_description(self, obj):
         if obj.description_long:
-            return obj.description_long[:30] + "..." if len(obj.description_long)>30 else obj.description_long
-        return "-"
+            text = obj.description_long
+            if len(text) > 30:
+                return text[:30] + "..."
+            else:
+                return text
+        else:
+            return "-"
     long_description.short_description = "Полное описание"
 
     def coordinates(self, obj):
@@ -54,7 +65,7 @@ class PlaceAdmin(SortableAdminMixin, admin.ModelAdmin):
 class ImageAdmin(admin.ModelAdmin):
     list_display = ('position', 'place_title', 'image_preview')
     list_display_links = ('image_preview',)
-
+    raw_id_fields = ['place']
     def place_title(self, obj):
         return obj.place.title
     place_title.short_description = "Место"
