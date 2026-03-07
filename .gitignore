@@ -1,3 +1,41 @@
-*venv
+# Виртуальное окружение
+venv
+env
 .env
-__pycache__
+.venv
+ENV/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Базы данных
+*.sqlite3
+*.db
+db.sqlite3
+
+# Файлы с секретами
+.env
+.env.local
+.env.*.local
+
+# IDE (если работаете в команде с разными редакторами)
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Директории с медиа и статикой (опционально)
+/media/
+/static/
+/mediafiles/
+/staticfiles/
+
+# Логи
+*.log
