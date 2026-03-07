@@ -35,8 +35,8 @@ class PlaceAdmin(SortableAdminMixin, admin.ModelAdmin):
     list_display_links = ('title', 'short_description', 'long_description')
 
     def short_description(self, obj):
-        if obj.description_short:
-            text = obj.description_short
+        if obj.short_description:
+            text = obj.short_description
             if len(text) > 30:
                 return text[:30] + "..."
             else:
@@ -46,8 +46,8 @@ class PlaceAdmin(SortableAdminMixin, admin.ModelAdmin):
     short_description.short_description = "Короткое описание"
 
     def long_description(self, obj):
-        if obj.description_long:
-            text = obj.description_long
+        if obj.long_description:
+            text = obj.long_description
             if len(text) > 30:
                 return text[:30] + "..."
             else:
@@ -76,4 +76,4 @@ class ImageAdmin(admin.ModelAdmin):
         return "-"
     image_preview.short_description = "Превью"
     image_preview.allow_tags = True
-# Register your models here.
+#
