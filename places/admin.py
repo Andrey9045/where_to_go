@@ -1,10 +1,10 @@
+from adminsortable2.admin import SortableAdminMixin, SortableTabularInline
 from django import forms
 from django.contrib import admin
 from django.utils.html import format_html
-from .models import Place, Image
 from tinymce.widgets import TinyMCE
-from adminsortable2.admin import SortableTabularInline
-from adminsortable2.admin import SortableAdminMixin
+
+from .models import Place, Image
 
 
 class ImageInline(SortableTabularInline):
@@ -13,7 +13,7 @@ class ImageInline(SortableTabularInline):
     fields = ('image', 'preview')
     readonly_fields = ('preview',)
     template = 'admin/edit_inline/tabular.html'
-    raw_id_fields = ('place',) 
+    raw_id_fields = ('place',)
 
     def preview(self, obj):
         if obj.image:
@@ -66,6 +66,7 @@ class ImageAdmin(admin.ModelAdmin):
     list_display = ('position', 'place_title', 'image_preview')
     list_display_links = ('image_preview',)
     raw_id_fields = ['place']
+
     def place_title(self, obj):
         return obj.place.title
     place_title.short_description = "Место"
@@ -76,4 +77,3 @@ class ImageAdmin(admin.ModelAdmin):
         return "-"
     image_preview.short_description = "Превью"
     image_preview.allow_tags = True
-#
