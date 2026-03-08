@@ -9,9 +9,7 @@ class Place(models.Model):
     )
     short_description = models.TextField(
         verbose_name="Краткое описание",
-        max_length=400,
         blank=True,
-        default=""
     )
     long_description = HTMLField(
         verbose_name="Полное описание"
@@ -26,6 +24,9 @@ class Place(models.Model):
         max_digits=17,
         decimal_places=14
     )
+
+    def __str__(self):
+        return self.title
 
     class Meta:
         ordering = ['title']
@@ -50,6 +51,9 @@ class Image(models.Model):
         default=0,
         db_index=True,
     )
+
+    def __str__(self):
+        return f"{self.position}: {self.place.title}"
 
     class Meta:
         ordering = ['position']
